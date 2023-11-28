@@ -6,13 +6,15 @@ const RegistrationScreen = ({ onRegister, navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');  // State for address
+  const [address, setAddress] = useState('');  
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isAdvisor, setIsAdvisor] = useState(false);  // State to keep track of toggle
+  const [isAdvisor, setIsAdvisor] = useState(false);  
 
   const handleRegistration = () => {
     const userType = isAdvisor ? 'advisors' : 'users';
-    fetch(`${API_URL}/${userType}/register/${username}/${password}/${email}/${phoneNumber}/${address}`, {
+    let urlSuffix = isAdvisor ? `/${username}/${password}/${email}/${phoneNumber}/${address}` : `/${username}/${password}/${email}`;
+  
+    fetch(`${API_URL}/${userType}/register${urlSuffix}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -32,7 +34,6 @@ const RegistrationScreen = ({ onRegister, navigation }) => {
         onRegister(username);
         navigation.navigate('Login');
       } else if (status === 200 && isAdvisor) {
-        // If the registration was successful and the user is an advisor, navigate to AdvisorRegistrationInformationScreen
         navigation.navigate('AdvisorRegistration', { username, phoneNumber, address });
       } else {
         Alert.alert('Registration Failed:', text);
