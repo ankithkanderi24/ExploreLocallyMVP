@@ -9,7 +9,9 @@ import RegistrationScreen from './Screens/registrationScreen';
 import AdvisorWaitingScreen from './Screens/AdvisorWaitingScreen';
 import AdvisorRegistrationInformationScreen from './Screens/AdvisorRegistrationInformationScreen';
 import SearchAdvisorsScreen from './Screens/SearchAdvisorsScreen';
+import RatingScreen from './Screens/RatingScreen';
 import DashboardScreen from './Screens/DashboardScreen';
+import CallPage from './Screens/callscreen';
 import { API_URL } from './API_Constant';
 
 const Stack = createStackNavigator();
@@ -39,6 +41,8 @@ const App = () => {
         <Stack.Screen name = "AdvisorRegistration" component={AdvisorRegistrationInformationScreen} />
         <Stack.Screen name="SearchAdvisors" component={SearchAdvisorsScreen} />
         <Stack.Screen name="Dashboard" component={DashboardScreen}/>
+        <Stack.Screen name="RateAdvisor" component={RatingScreen} />
+        <Stack.Screen name = "Call" component = {CallPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

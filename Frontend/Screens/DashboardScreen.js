@@ -1,23 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { View, SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import PersonCard from '../PersonCard';
 import { API_URL } from '../API_Constant';
 
 const DashboardScreen = ({ route }) => {
-  
   const [data, setData] = useState([]);
 
-  
   useEffect(() => {
+    const fetchRatingsForAdvisors = (advisors) => {
+      const ratingPromises = advisors.map((advisor) => {
+        return fetch(`${API_URL}/advisors/rating/${advisor.username}`)
+          .then((response) => response.json())
+          .then((ratingData) => {
+            return { ...advisor, rating: ratingData.average_rating };
+          })
+          .catch((error) => {
+            console.error('Error fetching rating for', advisor.username, error);
+            return { ...advisor, rating: 'None' };
+          });
+      });
+
+      Promise.all(ratingPromises).then((updatedAdvisors) => {
+        setData(updatedAdvisors);
+      });
+    };
+
     if (route.params?.advisors) {
-      
-      setData(route.params.advisors);
+      fetchRatingsForAdvisors(route.params.advisors);
     } else {
-      
       fetch(`${API_URL}/advisors/getall`)
         .then((response) => response.json())
-        .then((jsonData) => setData(jsonData))
-        .catch((error) => console.error(error));
+        .then((allAdvisors) => {
+          fetchRatingsForAdvisors(allAdvisors);
+        })
+        .catch((error) => {
+          console.error('Error fetching advisors:', error);
+        });
     }
   }, [route.params?.advisors]);
 
@@ -32,6 +50,7 @@ const DashboardScreen = ({ route }) => {
               location={advisor.location}
               interests={advisor.interests}
               languages={advisor.languages}
+              rating={advisor.rating}
             />
           ))}
         </ScrollView>
