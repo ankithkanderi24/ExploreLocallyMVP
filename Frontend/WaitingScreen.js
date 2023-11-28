@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { API_URL } from '../App';
+import { API_URL } from './API_Constant';
 
 const WaitingScreen = () => {
   return (

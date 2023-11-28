@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Switch, Text, Alert } from 'react-native';
-import { API_URL } from '../App';
+import { API_URL } from '../API_Constant';
 
 
 
@@ -11,7 +11,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
 
   const handleLogin = () => {
     const userType = isAdvisor ? 'advisors' : 'users';  // Determine user type based on toggle state
-    fetch(`http://44.199.49.3:5000/${userType}/verify/${username}/${password}`, {
+    fetch(`${API_URL}/users/verify/ryan/password`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -19,20 +19,19 @@ const LoginScreen = ({ onLogin, navigation }) => {
         },
     })
     .then(response => {
-      const statusCode = response.status;  // Capture the status code
-      // Get the response text regardless of the status code
+      const statusCode = response.status;  
       return response.text().then(text => ({
         status: statusCode,
         text: text
       }));
     })
     .then(({ status, text }) => {
-      console.log("Server Response:", text);  // Log the raw response
+      console.log("Server Response:", text);  
       if (status === 200) {
         onLogin(username);
         if (isAdvisor) {
           navigation.navigate('Waiting')
-        } else { // Log the user in if status is 200
+        } else { 
         navigation.navigate('SearchAdvisors');
         }
       } else {

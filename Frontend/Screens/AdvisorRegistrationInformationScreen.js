@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Picker, CheckBox, ScrollView, TouchableOpacity, Button, Alert } from 'react-native';
-import { API_URL } from '../App';
+import { API_URL } from '../API_Constant';
+
 
 const AdvisorRegistrationInformationScreen = ({ route, navigation }) => {
   const { username, phoneNumber, address } = route.params;
