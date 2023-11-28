@@ -7,7 +7,7 @@ import { API_URL } from '../API_Constant';
 const RatingScreen = ({ route }) => {
     const navigation = useNavigation();
   // Assuming the `advisor` object contains `username` and current `rating`
-    const { username, rating } = route.params;
+    const { username} = route.params;
     const [userRating, setUserRating] = useState(Math.round(userRating) || 1);
 
     const submitRating = async () => {

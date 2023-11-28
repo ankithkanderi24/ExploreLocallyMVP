@@ -11,7 +11,7 @@ const PersonCard = ({username, location, interests, languages, rating }) => {
   };
 
   const goToCallScreen = () => {
-    navigation.navigate('Call');
+    navigation.navigate('Call', {username});
   };
 
   const displayRating = typeof rating === 'number' ? `${rating.toFixed(1)} / 5.0` : 'Not rated yet';
