@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { API_URL } from '../App';
+import { API_URL } from '../API_Constant';
 
 const SearchAdvisorsScreen = ({ navigation }) => {
   const [openLocation, setOpenLocation] = useState(false);

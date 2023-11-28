@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
-import { Linking } from 'react-native';
-import { API_URL } from '../App';
+import { API_URL } from './API_Constant';
 
 
 const PersonCard = ({username, location, interests, languages }) => {

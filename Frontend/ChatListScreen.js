@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-import { API_URL } from '../App';
+import { API_URL } from './API_Constant';
 
 const sampleChats = [
   {

@@ -10,10 +10,10 @@ import AdvisorWaitingScreen from './Screens/AdvisorWaitingScreen';
 import AdvisorRegistrationInformationScreen from './Screens/AdvisorRegistrationInformationScreen';
 import SearchAdvisorsScreen from './Screens/SearchAdvisorsScreen';
 import DashboardScreen from './Screens/DashboardScreen';
+import { API_URL } from './API_Constant';
 
 const Stack = createStackNavigator();
 
-export const API_URL = 'http://44.199.49.3:5000';
 
 const App = () => {
   const [data, setData] = useState([]);
