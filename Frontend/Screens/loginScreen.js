@@ -11,7 +11,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
 
   const handleLogin = () => {
     const userType = isAdvisor ? 'advisors' : 'users';  // Determine user type based on toggle state
-    fetch(`${API_URL}/${userType}/verify/${username}/${password}`, {
+    fetch(`http://44.199.49.3:5000/${userType}/verify/${username}/${password}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
