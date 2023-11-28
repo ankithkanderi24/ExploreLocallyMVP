@@ -2,41 +2,40 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Switch, Text, Alert } from 'react-native';
 import { API_URL } from '../App';
 
-
-
-const LoginScreen = ({ onLogin, navigation }) => {
+const RegistrationScreen = ({ onRegister, navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [address, setAddress] = useState('');  // State for address
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [isAdvisor, setIsAdvisor] = useState(false);  // State to keep track of toggle
 
-  const handleLogin = () => {
-    const userType = isAdvisor ? 'advisors' : 'users';  // Determine user type based on toggle state
-    fetch(`${API_URL}/${userType}/verify/${username}/${password}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+  const handleRegistration = () => {
+    const userType = isAdvisor ? 'advisors' : 'users';
+    fetch(`${API_URL}/${userType}/register/${username}/${password}/${email}/${phoneNumber}/${address}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
     })
     .then(response => {
-      const statusCode = response.status;  // Capture the status code
-      // Get the response text regardless of the status code
+      const statusCode = response.status;
       return response.text().then(text => ({
         status: statusCode,
         text: text
       }));
     })
     .then(({ status, text }) => {
-      console.log("Server Response:", text);  // Log the raw response
-      if (status === 200) {
-        onLogin(username);
-        if (isAdvisor) {
-          navigation.navigate('Waiting')
-        } else { // Log the user in if status is 200
-        navigation.navigate('SearchAdvisors');
-        }
+      console.log("Server Response:", text);
+      if (status === 400) {
+        onRegister(username);
+        navigation.navigate('Login');
+      } else if (status === 200 && isAdvisor) {
+        // If the registration was successful and the user is an advisor, navigate to AdvisorRegistrationInformationScreen
+        navigation.navigate('AdvisorRegistration', { username, phoneNumber, address });
       } else {
-        Alert.alert('Login Failed:', text);
+        Alert.alert('Registration Failed:', text);
       }
     })
     .catch(error => console.error(error));
@@ -44,6 +43,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
 
   return (
     <View style={styles.container}>
+      {/* Existing Inputs */}
       <TextInput
         placeholder="Username"
         value={username}
@@ -57,7 +57,35 @@ const LoginScreen = ({ onLogin, navigation }) => {
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Login" onPress={handleLogin} color="#3498db" />
+      <TextInput
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        style={styles.input}
+      />
+
+      {isAdvisor && (
+        <>
+          <TextInput
+            placeholder="Address"
+            value={address}
+            onChangeText={setAddress}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChangeText={setPhoneNumber}
+            style={styles.input}
+          />
+        </>
+      )}
+
+      <Button
+        title={isAdvisor ? "Apply to platform" : "Register"} 
+        onPress={handleRegistration}
+        color="#3498db"
+      />
       <View style={styles.toggleContainer}>
         <Text>User</Text>
         <Switch
@@ -69,7 +97,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
         />
         <Text>Advisor</Text>
       </View>
-      <Button title="Register an Account" onPress={() => navigation.navigate('Registration')} color="#e74c3c" />
+      <Button title="Back to Login" onPress={() => navigation.goBack()} />
     </View>
   );
 };
@@ -102,5 +130,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginScreen;
+export default RegistrationScreen;
 
