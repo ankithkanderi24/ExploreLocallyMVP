@@ -59,19 +59,19 @@ const SearchAdvisorsScreen = ({ navigation }) => {
     }
   };
 
-  const handleSeeAllAdvisors = async () => {
-    try {
-      const response = await fetch(`${API_URL}/advisors/getall`);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const allAdvisors = await response.json();
+  // const handleSeeAllAdvisors = async () => {
+  //   try {
+  //     const response = await fetch(`${API_URL}/advisors/getall`);
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+  //     const allAdvisors = await response.json();
   
-      navigation.navigate('Dashboard', { advisors: allAdvisors });
-    } catch (error) {
-      console.error('There was an error fetching the top advisors:', error);
-    }
-  };
+  //     navigation.navigate('Dashboard', { advisors: allAdvisors });
+  //   } catch (error) {
+  //     console.error('There was an error fetching the top advisors:', error);
+  //   }
+  // };
   
 
   return (
@@ -114,9 +114,9 @@ const SearchAdvisorsScreen = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={handleSearch}>
         <Text style={styles.buttonText}>Search</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={handleSeeAllAdvisors}>
+      {/* <TouchableOpacity style={[styles.button, styles.buttonSecondary]} onPress={handleSeeAllAdvisors}>
         <Text style={styles.buttonText}>See All Advisors</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

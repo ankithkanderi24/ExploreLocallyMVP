@@ -10,7 +10,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
   const [isAdvisor, setIsAdvisor] = useState(false);  // State to keep track of toggle
 
   const handleLogin = () => {
-    const userType = isAdvisor ? 'advisors' : 'users';  // Determine user type based on toggle state
+    const userType = isAdvisor ? 'advisors' : 'users'; 
     fetch(`${API_URL}/${userType}/verify/${username}/${password}`, {
         method: 'GET',
         headers: {
@@ -30,7 +30,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
       if (status === 200) {
         onLogin(username);
         if (isAdvisor) {
-          navigation.navigate('Waiting')
+          navigation.navigate('Call')
         } else { 
         navigation.navigate('SearchAdvisors');
         }
