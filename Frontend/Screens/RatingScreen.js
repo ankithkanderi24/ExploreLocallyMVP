@@ -6,7 +6,6 @@ import { API_URL } from '../API_Constant';
 
 const RatingScreen = ({ route }) => {
     const navigation = useNavigation();
-  // Assuming the `advisor` object contains `username` and current `rating`
     const { username} = route.params;
     const [userRating, setUserRating] = useState(Math.round(userRating) || 1);
 
@@ -28,6 +27,10 @@ const RatingScreen = ({ route }) => {
         setUserRating(rating);
     };
 
+    const navigateBack = () => {
+      navigation.navigate('SearchAdvisors');
+  };
+
 
 
 
@@ -37,12 +40,15 @@ const RatingScreen = ({ route }) => {
         <Rating
             showRating
             type='star'
-            startingValue={Math.round(userRating)} // Changed to `userRating` which is the state variable
-            onFinishRating={handleRatingComplete}  // Changed to a new function that logs and sets state
+            startingValue={Math.round(userRating)}
+            onFinishRating={handleRatingComplete}  
             style={styles.rating}
         />
         <TouchableOpacity style={styles.button} onPress={submitRating}>
-        <Text style={styles.buttonText}>Submit Rating</Text>
+                <Text style={styles.buttonText}>Submit Rating</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.backButton]} onPress={navigateBack}>
+                <Text style={styles.buttonText}>Return to Search</Text>
         </TouchableOpacity>
     </View>
     );
@@ -67,6 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     padding: 15,
     borderRadius: 5,
+    marginBottom: 20
   },
   buttonText: {
     color: 'white',
