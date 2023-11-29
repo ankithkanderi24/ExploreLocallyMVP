@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Switch, Text, Alert } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, Alert, Image } from 'react-native';
 import { API_URL } from '../API_Constant';
 
 
@@ -7,10 +7,9 @@ import { API_URL } from '../API_Constant';
 const LoginScreen = ({ onLogin, navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdvisor, setIsAdvisor] = useState(false);  // State to keep track of toggle
 
   const handleLogin = () => {
-    const userType = isAdvisor ? 'advisors' : 'users';  // Determine user type based on toggle state
+    const userType = isAdvisor ? 'advisors' : 'users';
     fetch(`${API_URL}/${userType}/verify/${username}/${password}`, {
         method: 'GET',
         headers: {
@@ -43,31 +42,27 @@ const LoginScreen = ({ onLogin, navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Image
+        source={require('../Images/Logo.png')}
+        style={styles.logo}
+      />
       <TextInput
         placeholder="Username"
+        placeholderTextColor="#34495e" 
         value={username}
         onChangeText={setUsername}
         style={styles.input}
       />
       <TextInput
         placeholder="Password"
+        placeholderTextColor="#34495e" 
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         style={styles.input}
       />
-      <Button title="Login" onPress={handleLogin} color="#3498db" />
-      <View style={styles.toggleContainer}>
-        <Text>User</Text>
-        <Switch
-          trackColor={{ false: "#ecf0f1", true: "#2ecc71" }}
-          thumbColor={isAdvisor ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={() => setIsAdvisor(previousState => !previousState)}
-          value={isAdvisor}
-        />
-        <Text>Advisor</Text>
-      </View>
+      <Button title="Login" onPress={() => handleLogin(false)} color="#3498db" />
+      <Button title="Login as an Advisor" onPress={() => handleLogin(true)} color="#2ecc71" />
       <Button title="Register an Account" onPress={() => navigation.navigate('Registration')} color="#e74c3c" />
     </View>
   );
@@ -78,7 +73,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 20,
-    backgroundColor: '#ecf0f1',  // Light gray background for contrast
+    backgroundColor: '#ecf0f1',
   },
   toggleContainer: {
     flexDirection: 'row',
@@ -88,16 +83,23 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 45,
-    borderRadius: 5,  // Rounded corners
-    borderColor: '#3498db',  // Primary color for the border
+    borderRadius: 5,
+    borderColor: '#3498db',
     borderWidth: 1,
     marginBottom: 20,
     paddingLeft: 10,
-    elevation: 3,  // Shadow for Android
-    shadowOffset: { width: 1, height: 1 },  // Shadow for iOS
+    elevation: 3,
+    shadowOffset: { width: 1, height: 1 },
     shadowColor: "#000",
     shadowOpacity: 0.2,
     shadowRadius: 2,
+  },
+  logo: {
+    width: 100,
+    height: 100, 
+    resizeMode: 'contain',
+    marginBottom: 20, 
+    alignSelf: 'center',
   }
 });
 
