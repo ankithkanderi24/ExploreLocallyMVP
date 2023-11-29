@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-// Import the useNavigation hook from React Navigation
 import { useNavigation } from '@react-navigation/native';
 
 const PersonCard = ({username, location, interests, languages, rating }) => {
