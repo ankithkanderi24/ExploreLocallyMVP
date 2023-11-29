@@ -7,7 +7,7 @@ import { API_URL } from '../API_Constant';
 const LoginScreen = ({ onLogin, navigation }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdvisor, setIsAdvisor] = useState(false);  // State to keep track of toggle
+  const [isAdvisor, setIsAdvisor] = useState(false);  
 
   const handleLogin = () => {
     const userType = isAdvisor ? 'advisors' : 'users'; 
