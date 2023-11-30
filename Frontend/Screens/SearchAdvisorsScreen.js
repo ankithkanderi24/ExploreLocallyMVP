@@ -75,7 +75,7 @@ const SearchAdvisorsScreen = ({ navigation }) => {
   
 
   return (
-    <View contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.label}>Location:</Text>
       <DropDownPicker
         open={openLocation}
@@ -123,11 +123,11 @@ const SearchAdvisorsScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    paddingBottom: 100, 
     paddingHorizontal: 20,
-    paddingRight: 20,
-    alignItems: 'stretch',
-    justifyContent: 'center',
   },
   label: {
     fontSize: 18,
@@ -135,24 +135,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     color: '#000',
+    alignSelf: 'stretch', 
   },
   picker: {
     height: 40,
     marginBottom: 15,
+    width: '100%', 
   },
   button: {
     backgroundColor: '#0066CC',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',
-    marginTop: 10,
-  },
-  buttonSecondary: {
-    backgroundColor: '#000',
-    padding: 15,
-    borderRadius: 5,
-    alignItems: 'center',
-    marginTop: 10,
+    marginTop: 30,
+    width: '100%', 
   },
   buttonText: {
     color: '#fff',
