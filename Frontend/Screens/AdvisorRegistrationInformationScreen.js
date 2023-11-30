@@ -1,17 +1,45 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Picker, CheckBox, ScrollView, TouchableOpacity, Button, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Button, Alert } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { API_URL } from '../API_Constant';
 
 
 const AdvisorRegistrationInformationScreen = ({ route, navigation }) => {
+
+
   const { username, phoneNumber, address } = route.params;
-  const [selectedLocation, setSelectedLocation] = useState('New York');
+  const [selectedLocation, setSelectedLocation] = useState(null);
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [selectedInterests, setSelectedInterests] = useState([]);
+  const [openLocation, setOpenLocation] = useState(false);
+  const [openLanguages, setOpenLanguages] = useState(false);
+  const [openInterests, setOpenInterests] = useState(false);
 
-  const locations = ['New York', 'Rome', 'Paris', 'Tokyo', 'Sydney', 'Buenos Aires'];
-  const languages = ['English', 'Italian', 'French', 'Japanese', 'Spanish'];
-  const interests = ['Budget', 'Outdoors', 'Nightlife', 'Family-Friendly', 'Scenic', 'Foodie'];
+  const locations = [
+    { label: 'New York', value: 'New York' },
+    { label: 'Rome', value: 'Rome' },
+    { label: 'Paris', value: 'Paris' },
+    { label: 'Tokyo', value: 'Tokyo' },
+    { label: 'Sydney', value: 'Sydney' },
+    { label: 'Buenos Aires', value: 'Buenos Aires' }
+  ];
+    
+  const languages = [
+    { label: 'English', value: 'English' },
+    { label: 'Italian', value: 'Italian' },
+    { label: 'French', value: 'French' },
+    { label: 'Japanese', value: 'Japanese' },
+    { label: 'Spanish', value: 'Spanish' }
+  ];
+    
+  const interests = [
+    { label: 'Budget', value: 'Budget' },
+    { label: 'Outdoors', value: 'Outdoors' },
+    { label: 'Nightlife', value: 'Nightlife' },
+    { label: 'Family-Friendly', value: 'Family-Friendly' },
+    { label: 'Scenic', value: 'Scenic' },
+    { label: 'Foodie', value: 'Foodie' }
+  ];
 
   const handleLanguageToggle = (language) => {
     if (selectedLanguages.includes(language)) {
@@ -30,14 +58,12 @@ const AdvisorRegistrationInformationScreen = ({ route, navigation }) => {
   };
 
   const handleRegistrationInformation = () => {
-    // Prepare data to send to the API
     const data = {
       languages: selectedLanguages,
       interests: selectedInterests,
       location: selectedLocation,
     };
   
-    // Make the API call
     fetch(`${API_URL}/advisors/registerinformation/${username}/${phoneNumber}/${address}`, {
       method: 'POST',
       headers: {
@@ -55,6 +81,7 @@ const AdvisorRegistrationInformationScreen = ({ route, navigation }) => {
       })
       .then(({ status, text }) => {
         if (status === 200) {
+          Alert.alert('Successful Application, please wait for approval')
           navigation.navigate('Login');
         } else {
           Alert.alert('Registration Failed', text);
@@ -67,74 +94,87 @@ const AdvisorRegistrationInformationScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.centeredContainer}>
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.label}>Select Destination You Plan to Advise On:</Text>
-        <Picker
-          selectedValue={selectedLocation}
-          onValueChange={(itemValue) => setSelectedLocation(itemValue)}
-        >
-          {locations.map((location) => (
-            <Picker.Item key={location} label={location} value={location} />
-          ))}
-        </Picker>
+    <View style={styles.container}>
+      <Text style={styles.label}>Select Destination You Plan to Advise On:</Text>
+        <DropDownPicker
+        open={openLocation}
+        value={selectedLocation}
+        items={locations}
+        setOpen={setOpenLocation}
+        setValue={setSelectedLocation}
+        zIndex={3000}
+        IndexInverse={1000}
+        style={styles.picker}
+        />
 
         <Text style={styles.label}>Select Proficient Languages:</Text>
-        {languages.map((language) => (
-          <View key={language} style={styles.checkboxContainer}>
-            <CheckBox
-              value={selectedLanguages.includes(language)}
-              onValueChange={() => handleLanguageToggle(language)}
-            />
-            <Text style={styles.checkboxLabel}>{language}</Text>
-          </View>
-        ))}
+        <DropDownPicker
+          open={openLanguages}
+          value={selectedLanguages}
+          items={languages}
+          setOpen={setOpenLanguages}
+          setValue={setSelectedLanguages}
+          multiple={true}
+          zIndex={2000}
+          zIndexInverse={2000}
+          style={styles.picker}
+        />
 
         <Text style={styles.label}>Select Your Specific Areas of Knowledge:</Text>
-        {interests.map((interest) => (
-          <TouchableOpacity
-            key={interest}
-            style={styles.checkboxContainer}
-            onPress={() => handleInterestToggle(interest)}
-          >
-            <CheckBox
-              value={selectedInterests.includes(interest)}
-              onValueChange={() => handleInterestToggle(interest)}
-            />
-            <Text style={styles.checkboxLabel}>{interest}</Text>
-          </TouchableOpacity>
-        ))}
+        <DropDownPicker
+          open={openInterests}
+          value={selectedInterests}
+          items={interests}
+          setOpen={setOpenInterests}
+          setValue={setSelectedInterests}
+          multiple={true}
+          zIndex={1000}
+          zIndexInverse={3000}
+          style={styles.picker}
+        />
 
-        <Button title="Submit" onPress={handleRegistrationInformation} />
-      </ScrollView>
+      <TouchableOpacity style={styles.button} onPress={handleRegistrationInformation}>
+        <Text style={styles.buttonText}>Submit</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   container: {
-    width: '80%', // Adjust the width as needed
-    padding: 20,
+    flex: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    paddingBottom: 100, 
+    paddingHorizontal: 20,
   },
   label: {
     fontSize: 18,
     fontWeight: 'bold',
+    marginTop: 20,
     marginBottom: 10,
+    color: '#000',
+    alignSelf: 'stretch',
   },
-  checkboxContainer: {
-    flexDirection: 'row',
+  picker: {
+    height: 40,
+    marginBottom: 15,
+    width: '100%',
+  },
+  button: {
+    backgroundColor: '#0066CC',
+    padding: 15,
+    borderRadius: 5,
     alignItems: 'center',
-    marginBottom: 10,
+    marginTop: 30,
+    width: '100%',
   },
-  checkboxLabel: {
-    fontSize: 16,
-    marginLeft: 10,
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
+
 
 export default AdvisorRegistrationInformationScreen;

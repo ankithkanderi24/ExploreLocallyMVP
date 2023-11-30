@@ -13,7 +13,6 @@ const sampleChats = [
     lastMessageTime: 'Yesterday',
     lastMessage: 'See you then!',
   },
-  // Add more sample chat data here...
 ];
 
 const ChatListScreen = () => {

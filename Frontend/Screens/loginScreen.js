@@ -30,7 +30,7 @@ const LoginScreen = ({ onLogin, navigation }) => {
       if (status === 200) {
         onLogin(username);
         if (isAdvisor) {
-          navigation.navigate('Call')
+          navigation.navigate('Call', {isAdvisor})
         } else { 
         navigation.navigate('SearchAdvisors');
         }

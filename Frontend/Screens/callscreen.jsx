@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ZegoUIKitPrebuiltCall, ONE_ON_ONE_VIDEO_CALL_CONFIG } from '@zegocloud/zego-uikit-prebuilt-call-rn';
 
 function CallPage({ route, navigation }) {
-  const username = route.params?.username || 'DefaultUsername';
+  const { username = 'DefaultUsername', isAdvisor } = route.params;
 
   const randomUserID = String(Math.floor(Math.random() * 100000));
 
@@ -17,7 +17,13 @@ function CallPage({ route, navigation }) {
         callID='testCallID'
         config={{
           ...ONE_ON_ONE_VIDEO_CALL_CONFIG,
-          onHangUp: () => { navigation.navigate('RateAdvisor', {username}) },
+          onHangUp: () => {
+            if (!isAdvisor) {
+              navigation.navigate('RateAdvisor', { username });
+            } else {
+              navigation.navigate('Login')
+            }
+          },
         }}
       />
     </View>
