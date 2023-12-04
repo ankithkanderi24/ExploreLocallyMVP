@@ -40,6 +40,11 @@ const SearchAdvisorsScreen = ({ navigation }) => {
   
 
   const handleSearch = async () => {
+
+    if (!selectedLanguage || !selectedLocation) {
+      alert('Please select both a language and a location.');
+      return;
+    }
     try {
       const queryParams = new URLSearchParams({
         languages: selectedLanguage,

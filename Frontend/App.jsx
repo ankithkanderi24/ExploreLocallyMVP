@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
+import { StyleSheet, LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import PersonCard from './PersonCard';
 import LoginScreen from './Screens/loginScreen';
 import RegistrationScreen from './Screens/registrationScreen';
 import AdvisorWaitingScreen from './Screens/AdvisorWaitingScreen';
@@ -13,6 +13,8 @@ import RatingScreen from './Screens/RatingScreen';
 import DashboardScreen from './Screens/DashboardScreen';
 import CallPage from './Screens/callscreen';
 import { API_URL } from './API_Constant';
+
+console.disableYellowBox = true;
 
 const Stack = createStackNavigator();
 
